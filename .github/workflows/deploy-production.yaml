@@ -1,16 +1,22 @@
 name: Deploy to Prod
 run-name: Deploy Prod (${{ github.ref }})
 on:
-  push:
-    tags:
-      - v*
+  workflow_call:
+    inputs:
+      ref:
+        description: Git tag to deploy
+        required: true
+        type: string
 
 jobs:
   build-image:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Checkout GitHub repo
         uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -24,7 +30,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: iac-task-production
-          IMAGE_TAG: backend_${{ github.ref }}
+          IMAGE_TAG: backend_${{ inputs.ref }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG src/
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
