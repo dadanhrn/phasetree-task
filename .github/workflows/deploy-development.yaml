@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - src/**
+      - .github/workflows/**
 
 jobs:
   build-image:
