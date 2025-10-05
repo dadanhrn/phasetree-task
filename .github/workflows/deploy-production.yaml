@@ -1,7 +1,7 @@
 name: Deploy to Prod
 run-name: Deploy Prod (${{ github.ref }})
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       ref:
         description: Git tag to deploy
