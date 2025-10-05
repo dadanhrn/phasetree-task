@@ -11,7 +11,8 @@ module "ecr" {
 
 # module "ecs" {
 #     source = "../aws/ecs"
-#     alb_arn = module.alb.arn
+#     # alb_arn = module.alb.arn
+#     subnet_id = module.alb.subnet_id
 #     cpu_num = var.cpu_num
 #     mem_size = var.mem_size
 #     port = 3000
@@ -19,7 +20,7 @@ module "ecr" {
 #     env = var.name
 #     env_vars = var.env_vars
 #     logs = {
-#       group_name = "asd"
+#       group_name = "putra-applogs-${var.name}"
 #       region = var.default_region
 #     }
 # }

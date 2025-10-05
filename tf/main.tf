@@ -34,10 +34,10 @@ module "env_dev" {
     default_region = var.region
 }
 
-# module "env_prod" {
-#     source = "./env"
-#     name = "prod"
-#     vpc_id = aws_vpc.main.id
-#     cidr_block = "10.0.2.0/24"
-#     default_region = "eu-central-1"
-# }
+module "env_prod" {
+    source = "./env"
+    name = "production"
+    vpc_id = aws_vpc.main.id
+    cidr_block = "10.0.2.0/24"
+    default_region = "eu-central-1"
+}

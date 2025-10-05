@@ -1,11 +1,8 @@
-name: Deploy to Dev
-run-name: Deployment
+name: Deploy to Prod
+run-name: Deployment to Prod
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - src/
+  create:
+    ref_type: tag
 
 jobs:
   build-image:
@@ -25,8 +22,8 @@ jobs:
       - name: Build Docker image
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: iac-task-development
-          IMAGE_TAG: backend:${{ github.sha }}
+          REPOSITORY: iac-task-production
+          IMAGE_TAG: backend:${{ github.ref }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG src/
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG

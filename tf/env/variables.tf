@@ -4,7 +4,7 @@ variable "name" {
 
 variable "cpu_num" {
     type = number
-    default = 1
+    default = 256
 }
 
 variable "mem_size" {
