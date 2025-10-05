@@ -3,7 +3,7 @@ run-name: Deploy Prod (${{ github.ref }})
 on:
   push:
     tags:
-      - v**
+      - v*
 
 jobs:
   build-image:
