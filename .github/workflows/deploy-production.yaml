@@ -23,7 +23,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: iac-task-production
-          IMAGE_TAG: backend:${{ github.ref }}
+          IMAGE_TAG: backend_${{ github.ref }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG src/
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
