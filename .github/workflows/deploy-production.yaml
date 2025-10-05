@@ -1,8 +1,9 @@
 name: Deploy to Prod
 run-name: Deploy Prod (${{ github.ref }})
 on:
-  create:
-    ref_type: tag
+  push:
+    tags:
+      - v**
 
 jobs:
   build-image:
