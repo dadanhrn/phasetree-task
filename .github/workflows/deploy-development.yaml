@@ -1,5 +1,5 @@
 name: Deploy to Dev
-run-name: Deployment
+run-name: Deploy Dev (${{ github.sha }})
 on:
   push:
     branches:
