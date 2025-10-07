@@ -1,32 +1,31 @@
 resource "aws_ecs_service" "backend" {
-  name = "backend"
-  launch_type = "EC2" # "FARGATE"
+  name = "backend-${var.env}"
+  launch_type = "FARGATE"
   task_definition = aws_ecs_task_definition.instance.arn
   cluster = aws_ecs_cluster.instance_cluster.arn
   desired_count = var.task_count
 
   network_configuration {
     subnets = [var.subnet_id]
-    assign_public_ip = true
   }
   
-  # load_balancer {
-  #   target_group_arn = var.alb_arn
-  #   container_name = "backend"
-  #   container_port = 3000
-  # }
+  load_balancer {
+    target_group_arn = var.tg_alb_arn
+    container_name = "backend-${var.env}"
+    container_port = var.port
+  }
 }
 
 resource "aws_ecs_task_definition" "instance" {
-  family = "backend"
-  # requires_compatibilities = ["FARGATE"]
-  # execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
-  # network_mode = "awsvpc"
+  family = "backend-${var.env}"
+  requires_compatibilities = ["FARGATE"]
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+  network_mode = "awsvpc"
   cpu = var.cpu_num
   memory = var.mem_size
   container_definitions = jsonencode([
     {
-      name = "backend"
+      name = "backend-${var.env}"
       image = "amazon/amazon-ecs-sample"
       cpu = var.cpu_num
       memory = var.mem_size
@@ -37,14 +36,14 @@ resource "aws_ecs_task_definition" "instance" {
           hostPort = var.port
         }
       ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     "awslogs-group" = module.cloudwatch.group_name
-      #     "awslogs-stream-prefix" = "ecs_task"
-      #     "awslogs-region" = var.logs.region
-      #   }
-      # }
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group" = module.cloudwatch.group_name
+          "awslogs-stream-prefix" = "ecs_task"
+          "awslogs-region" = var.logs.region
+        }
+      }
       environment = [for k, v in var.env_vars : {name = k, value = v}]
     }
   ])

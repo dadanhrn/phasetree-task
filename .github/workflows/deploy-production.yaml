@@ -1,5 +1,5 @@
 name: Deploy to Prod
-run-name: Deploy Prod (${{ github.ref }})
+run-name: Deploy Prod (${{ inputs.ref }})
 on:
   workflow_dispatch:
     inputs:

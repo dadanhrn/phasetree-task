@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout GitHub repo
         uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -23,6 +25,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
       - name: Build Docker image
+        id: build-image
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: iac-task-development
@@ -30,3 +33,17 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG src/
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo image=$REGISTRY/REPOSITORY:$IMAGE_TAG >> "$GITHUB_OUTPUT"
+      - name: Render ECS task definition
+        id: render-task
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition-family: backend-development
+          container-name: backend-development
+          image: ${{ steps.build-image.outputs.image }}
+      - name: Deploy task to ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-task.outputs.task-definition }}
+          service: backend-development
+          cluster: instance_cluster

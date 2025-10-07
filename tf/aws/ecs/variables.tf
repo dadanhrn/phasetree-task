@@ -2,9 +2,9 @@ variable "env" {
   type = string
 }
 
-# variable "alb_arn" {
-#   type = string
-# }
+variable "tg_alb_arn" {
+  type = string
+}
 
 variable "subnet_id" {
   type = string

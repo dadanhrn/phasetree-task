@@ -26,11 +26,20 @@ resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 }
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main"
+  }
+}
+
 module "env_dev" {
     source = "./env"
     name = "development"
     vpc_id = aws_vpc.main.id
-    cidr_block = "10.0.1.0/24"
+    cidr_block_1 = "10.0.5.0/24"
+    cidr_block_2 = "10.0.2.0/24"
     default_region = var.region
 }
 
@@ -38,6 +47,7 @@ module "env_prod" {
     source = "./env"
     name = "production"
     vpc_id = aws_vpc.main.id
-    cidr_block = "10.0.2.0/24"
+    cidr_block_1 = "10.0.3.0/24"
+    cidr_block_2 = "10.0.4.0/24"
     default_region = "eu-central-1"
 }
