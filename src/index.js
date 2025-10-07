@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 
 app.get('/greet', (req, res) => {
-  console.log("incoming request")
+  console.log("incoming GET request")
   res.send(process.env.GREETING_MESSAGE || 'Hello world!!!');
 });
 
