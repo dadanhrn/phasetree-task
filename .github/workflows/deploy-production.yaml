@@ -12,7 +12,7 @@ jobs:
   run-deployment:
     uses: ./.github/workflows/deploy-template.yaml
     with:
-      ref: ${{ github.sha }}
+      ref: ${{ inputs.ref }}
       env: production
       aws-region: ${{ vars.AWS_REGION }}
     secrets:
