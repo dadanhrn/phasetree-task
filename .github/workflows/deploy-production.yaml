@@ -10,10 +10,12 @@ on:
 
 jobs:
   gatekeep:
+    runs-on: ubuntu-latest
     environment: production
+    steps:
+      - run: echo OK
   run-deployment:
     needs: gatekeep
-    runs-on: ubuntu-latest
     uses: ./.github/workflows/deploy-template.yaml
     with:
       ref: ${{ inputs.ref }}
