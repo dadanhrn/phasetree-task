@@ -18,10 +18,7 @@ on:
 
 jobs:
   build-image:
-    name: Build Docker image and push to ECR
     runs-on: ubuntu-latest
-    outputs:
-      image: ${{ steps.image-name.outputs.image }}
     steps:
       - name: Checkout GitHub repo
         uses: actions/checkout@v5
@@ -55,18 +52,13 @@ jobs:
           tags: ${{ steps.image-name.outputs.image }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-  deploy-image:
-    name: Update ECS task definition and deploy
-    runs-on: ubuntu-latest
-    needs: build-image
-    steps:
       - name: Render ECS task definition
         id: render-task
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition-family: backend-${{ inputs.env }}
           container-name: backend-${{ inputs.env }}
-          image: ${{ needs.build-image.outputs.image }}
+          image: ${{ steps.image-name.outputs.image }}
       - name: Deploy task to ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
