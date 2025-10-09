@@ -1,6 +1,11 @@
 name: Deploy to Dev
 run-name: Deploy Dev (${{ github.sha }})
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - app/**
   push:
     branches:
       - main
