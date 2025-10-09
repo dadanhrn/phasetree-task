@@ -4,6 +4,6 @@ WORKDIR /app
 COPY package.json .
 RUN npm install --save
 
-COPY index.js .
+COPY src .
 EXPOSE 3000
 ENTRYPOINT [ "node", "index.js" ]

@@ -45,9 +45,11 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./src
+          context: ./app
           push: true
           tags: ${{ steps.image-name.outputs.image }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Render ECS task definition
         id: render-task
         uses: aws-actions/amazon-ecs-render-task-definition@v1
