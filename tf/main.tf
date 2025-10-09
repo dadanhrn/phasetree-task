@@ -41,6 +41,10 @@ module "env_dev" {
     cidr_block_1 = "10.0.5.0/24"
     cidr_block_2 = "10.0.2.0/24"
     default_region = var.region
+
+    env_vars = {
+      GREETING_MESSAGE = "hello from development!!!"
+    }
 }
 
 module "env_prod" {
@@ -50,4 +54,8 @@ module "env_prod" {
     cidr_block_1 = "10.0.3.0/24"
     cidr_block_2 = "10.0.4.0/24"
     default_region = "eu-central-1"
+
+    env_vars = {
+      GREETING_MESSAGE = "hello from production!!!"
+    }
 }
