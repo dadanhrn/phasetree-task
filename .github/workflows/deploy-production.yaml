@@ -9,8 +9,10 @@ on:
         type: string
 
 jobs:
-  run-deployment:
+  gatekeep:
     environment: production
+  run-deployment:
+    needs: gatekeep
     runs-on: ubuntu-latest
     uses: ./.github/workflows/deploy-template.yaml
     with:
