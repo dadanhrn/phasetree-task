@@ -11,6 +11,7 @@ on:
 jobs:
   run-deployment:
     environment: production
+    runs-on: ubuntu-latest
     uses: ./.github/workflows/deploy-template.yaml
     with:
       ref: ${{ inputs.ref }}
