@@ -47,6 +47,6 @@ This template is then called by `deploy-development.yaml` and `deploy-production
 ## Issues and Challenges
 1. I was only able to store the Terraform state files locally due to not having permission to create an S3 bucket (`s3:CreateBucket`). In turn, it does not make sense to implement a workflow to apply changes to the Terraform definitions since there would be virtually no way for the workflow to access the state files.
 2. I gave the CloudWatch log group the wrong name (i.e. not having the correct prefix), and could not change it since I lack permission to delete a log group.
-3. I lack permission to assign a security group to the load balancer (`ec2:AuthorizeSecurityGroupIngress` and `ec2:AuthorizeSecurityGroupEgress`). This prevented me from making an HTTP request to the deployed service.
-4. I lack permission to start a live tail of the logs (`logs:StartLiveTail`). 
-5. I lack permission to list deployments of the service (`ecs:ListServiceDeployments`). Together with point 3 and 4, I was unable to directly check if the application was correctly deployed and running. The only way I could check that the deployment workflow ran correctly was by looking at the `image` property of the ECS task definition through `aws ecs describe-task-definition`.
+3. I lacked permission to assign a security group to the load balancer (`ec2:AuthorizeSecurityGroupIngress` and `ec2:AuthorizeSecurityGroupEgress`). This prevented me from making an HTTP request to the deployed service.
+4. I lacked permission to start a live tail of the logs (`logs:StartLiveTail`). 
+5. I lacked permission to list deployments of the service (`ecs:ListServiceDeployments`). Together with point 3 and 4, I was unable to directly check if the application was correctly deployed and running. The only way I could check that the deployment workflow ran correctly was by looking at the `image` property of the ECS task definition through `aws ecs describe-task-definition`.
