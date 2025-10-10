@@ -4,10 +4,6 @@ resource "aws_ecs_service" "backend" {
   task_definition = aws_ecs_task_definition.instance.arn
   cluster = aws_ecs_cluster.instance_cluster.arn
   desired_count = var.task_count
-
-  network_configuration {
-    subnets = [var.subnet_id]
-  }
   
   load_balancer {
     target_group_arn = var.tg_alb_arn

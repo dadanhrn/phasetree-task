@@ -8,13 +8,12 @@ module "alb" {
 
 module "ecr" {
     source = "../aws/ecr"
-    repository_name = "iac-task-${var.name}"
+    env = var.name
 }
 
 module "ecs" {
     source = "../aws/ecs"
     tg_alb_arn = module.alb.target_group_arn
-    subnet_id = module.alb.subnet_id
     cpu_num = var.cpu_num
     mem_size = var.mem_size
     port = 3000

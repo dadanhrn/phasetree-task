@@ -1,3 +1,4 @@
-variable "repository_name" {
+variable "env" {
+  description = "Environment name"
   type = string
 }

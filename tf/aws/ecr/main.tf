@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "repository" {
-  name = var.repository_name
+  name = "iac-task-${var.env}"
 
   image_scanning_configuration {
     scan_on_push = true
